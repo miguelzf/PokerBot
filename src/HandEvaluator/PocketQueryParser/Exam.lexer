@@ -1,0 +1,55 @@
+%lexer Exam
+
+[AaKkQqJjTt98765432][DdCcHhSs]						%Card		{yylval = yytext.Clone();}
+[AaKkQqJjTt98765432][AaKkQqJjTt98765432]([OoSs\*])?	%Card169	{yylval = yytext.Clone();}
+[AaKkQqJjTt98765432][Xx\?]([OoSs\*])?				%Card169Wild {yylval = yytext.Clone();}
+[0123456789]+(\.[0123456789]+)?\%					%Percent	{yylval = yytext.Substring(0, yytext.Length-1);}
+[0123456789]+(\.[0123456789]+)?						%Number		{yylval = yytext.Clone();}
+
+"?"													%Any		{yylval = yytext.Clone();}
+[Gg][Aa][Pp]([Pp][Ee][Dd])?							%Gapped		{yylval = yytext.Clone();}
+[Gg][Aa][Pp]([Pp][Ee][Dd])?1						%Gapped1	{yylval = yytext.Clone();}
+[Gg][Aa][Pp]([Pp][Ee][Dd])?2						%Gapped2	{yylval = yytext.Clone();}
+[Gg][Aa][Pp]([Pp][Ee][Dd])?3						%Gapped3	{yylval = yytext.Clone();}
+
+"-"													%To			{yylval = yytext.Clone();}
+[Tt][Oo]											%To			{yylval = yytext.Clone();}
+[Tt][Hh][Rr][Oo][Uu][Gg][Hh]						%To			{yylval = yytext.Clone();}
+
+[Pp][Aa][Ii][Rr]([Ee][Dd])?							%Pair		{yylval = yytext.Clone();} 
+[Nn][Oo][Tt]										%Not		{yylval = yytext.Clone();}
+"!"													%Not		{yylval = yytext.Clone();}
+[Bb][Uu][Tt]										%But		{yylval = yytext.Clone();}
+
+[Cc]([Oo][Nn][Nn][Ee][Cc][Tt][Ee][Dd])?				%Connected	{yylval = yytext.Clone();}
+
+[Ss]([Uu][Ii][Tt][Ee][Dd])?							%Suited		{yylval = yytext.Clone();}	
+[Oo]([Ff][Ff][Ss][Uu][Ii][Tt]([Ed][Dd])?)?			%Offsuit	{yylval = yytext.Clone();}		
+
+"<="												%LE			{yylval = yytext.Clone();}
+"<"													%LT			{yylval = yytext.Clone();}
+">="												%GE			{yylval = yytext.Clone();}
+">"													%GT			{yylval = yytext.Clone();}
+[Oo][Rr]											%OR			{yylval = yytext.Clone();}
+[Uu][Nn][Ii][Oo][Nn]								%OR			{yylval = yytext.Clone();}
+","													%OR			{yylval = yytext.Clone();}
+"|"													%OR			{yylval = yytext.Clone();}
+[Aa][Nn][Dd]										%AND		{yylval = yytext.Clone();}
+"&"													%AND		{yylval = yytext.Clone();}			
+[Ii][Nn]											%IN			{yylval = yytext.Clone();}
+[Ii][Nn][Tt][Ee][Rr][Ss][Ee][Cc][Tt]([Ii][Oo][Nn])?	%AND		{yylval = yytext.Clone();}
+"("													%LParen		{yylval = yytext.Clone();}
+")"													%RParen		{yylval = yytext.Clone();}
+
+[Gg]([Rr][Oo][Uu][Pp])?8							%Group8		{yylval = yytext.Clone();}
+[Gg]([Rr][Oo][Uu][Pp])?7							%Group7		{yylval = yytext.Clone();}
+[Gg]([Rr][Oo][Uu][Pp])?6							%Group6		{yylval = yytext.Clone();}
+[Gg]([Rr][Oo][Uu][Pp])?5							%Group5		{yylval = yytext.Clone();}
+[Gg]([Rr][Oo][Uu][Pp])?4							%Group4		{yylval = yytext.Clone();}
+[Gg]([Rr][Oo][Uu][Pp])?3							%Group3		{yylval = yytext.Clone();}
+[Gg]([Rr][Oo][Uu][Pp])?2							%Group2		{yylval = yytext.Clone();}
+[Gg]([Rr][Oo][Uu][Pp])?1							%Group1		{yylval = yytext.Clone();}
+[Gg]([Rr][Oo][Uu][Pp])?9							%Group9		{yylval = yytext.Clone();}
+[Gg]([Rr][Oo][Uu][Pp])?[Nn]([Oo][Nn][Ee])?			%Group9		{yylval = yytext.Clone();}
+          
+[\r\n ]	 ;

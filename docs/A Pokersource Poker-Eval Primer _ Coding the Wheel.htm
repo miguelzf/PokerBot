@@ -1,0 +1,443 @@
+<!doctype html>
+<!--[if lt IE 7]><html lang="en-US" class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html lang="en-US" class="no-js lt-ie9 lt-ie8"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html lang="en-US" class="no-js lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en-US" class="no-js"><!--<![endif]-->
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>A Pokersource Poker-Eval Primer |  Coding the Wheel</title>
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="pingback" href="http://www.codingthewheel.com/xmlrpc.php">
+<link rel="stylesheet" href="http://www.codingthewheel.com/wp-content/plugins/organize-series/orgSeries.css" type="text/css" media="screen" /><link rel="alternate" type="application/rss+xml" title="Coding the Wheel &raquo; Feed" href="http://www.codingthewheel.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Coding the Wheel &raquo; Comments Feed" href="http://www.codingthewheel.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Coding the Wheel &raquo; A Pokersource Poker-Eval Primer Comments Feed" href="http://www.codingthewheel.com/archives/a-pokersource-poker-eval-primer/feed/" />
+<link rel='stylesheet' id='bones-stylesheet-css'  href='http://www.codingthewheel.com/wp-content/themes/wheels-2014/library/css/style.css' type='text/css' media='all' />
+<!--[if lt IE 9]>
+<link rel='stylesheet' id='bones-ie-only-css'  href='http://www.codingthewheel.com/wp-content/themes/wheels-2014/library/css/ie.css' type='text/css' media='all' />
+<![endif]-->
+<link rel='stylesheet' id='dashicons-css'  href='http://www.codingthewheel.com/wp-includes/css/dashicons.min.css' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-jquery-ui-dialog-css'  href='http://www.codingthewheel.com/wp-includes/css/jquery-ui-dialog.min.css' type='text/css' media='all' />
+<link rel='stylesheet' id='rpbchessboard-chesswidget-css'  href='http://www.codingthewheel.com/wp-content/plugins/rpb-chessboard/css/chesswidget.css' type='text/css' media='all' />
+<link rel='stylesheet' id='rpbchessboard-pgnwidget-css'  href='http://www.codingthewheel.com/wp-content/plugins/rpb-chessboard/css/pgnwidget.css' type='text/css' media='all' />
+<link rel='stylesheet' id='rpbchessboard-main-css'  href='http://www.codingthewheel.com/wp-content/plugins/rpb-chessboard/css/main.css' type='text/css' media='all' />
+<script type='text/javascript' src='http://www.codingthewheel.com/wp-includes/js/jquery/jquery.js'></script>
+<script type='text/javascript' src='http://www.codingthewheel.com/wp-includes/js/jquery/jquery-migrate.min.js'></script>
+<script type='text/javascript' src='http://www.codingthewheel.com/wp-content/plugins/rpb-chessboard/chess-js/chess.min.js'></script>
+<script type='text/javascript' src='http://www.codingthewheel.com/wp-content/plugins/rpb-chessboard/js/pgn.js'></script>
+<script type='text/javascript' src='http://www.codingthewheel.com/wp-content/plugins/rpb-chessboard/js/chesswidget.js'></script>
+<script type='text/javascript' src='http://www.codingthewheel.com/wp-content/plugins/rpb-chessboard/js/pgnwidget.js'></script>
+<script type='text/javascript' src='http://www.codingthewheel.com/wp-content/plugins/rpb-chessboard/js/main.js'></script>
+<script type='text/javascript' src='http://www.codingthewheel.com/wp-includes/js/comment-reply.min.js'></script>
+<script type='text/javascript' src='http://www.codingthewheel.com/wp-content/themes/wheels-2014/library/js/libs/modernizr.custom.min.js'></script>
+<link rel='canonical' href='http://www.codingthewheel.com/archives/a-pokersource-poker-eval-primer/' />
+<link rel='shortlink' href='http://www.codingthewheel.com/?p=89' />
+<style type="text/css">
+			.featuredComment-comment { margin: 0; }
+			.featuredComment-comment-content { margin: 0;}
+			.featuredComment-cite { display: block; text-align: right; line-height: 1em; font-size: 11px; }
+			.featuredComment-cite:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+				.featuredComment-gravatar {float: right; padding: 0px 5px;}
+				.featuredComment-author { }
+			.featuredComment-pager { }
+			.featuredComment-next { padding: 5px; }
+			.featuredComment-prev { padding: 5px; }
+		  </style><style type="text/css" id="syntaxhighlighteranchor"></style>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+</head>
+
+<body class="single single-post postid-89 single-format-standard">
+<div id="container">
+<header class="header" role="banner">
+<div id="inner-header" class="wrap clearfix">
+
+<p id="logo" class="h1 title">
+<a href="http://www.codingthewheel.com" rel="nofollow">Coding the Wheel</a></p>
+</div>
+<nav role="navigation">
+<div class="nav top-nav clearfix"><ul><li ><a href="http://www.codingthewheel.com/">Home</a></li><li class="page_item page-item-578"><a href="http://www.codingthewheel.com/contact/">Contact</a></li><li class="page_item page-item-575"><a href="http://www.codingthewheel.com/subscribe/">Subscribe</a></li></ul></div>
+</nav>
+</header><div id="content">
+<div id="inner-content" class="wrap clearfix">
+<div id="main" class="eightcol first clearfix" role="main">
+<article id="post-89" class="post-89 post type-post status-publish format-standard hentry tag-online-poker tag-poker tag-poker-bot tag-poker-hand-evaluation clearfix" role="article" itemscope itemtype="http://schema.org/BlogPosting">
+<header class="article-header">
+<h1 class="entry-title single-title" itemprop="headline">A Pokersource Poker-Eval Primer</h1>
+<div class="byline vcard">
+<time class="updated" datetime="2009-04-14" pubdate>April 14, 2009</time> | <span class="author"></span>
+</div>
+</header>
+<section class="entry-content clearfix" itemprop="articleBody">
+<p>Pokersource Poker-Eval, the <a href="http://pokersource.info/">open-source poker hand evaluation library</a>, takes a lot of flack for being &#8220;low-level&#8221;. In <a href="http://www.codingthewheel.com/archives/poker-hand-evaluator-roundup">The Great Poker Hand Evaluator Roundup</a>, I wrote:</p>
+<blockquote><p>The Poker-Eval library is implemented in highly optimized, heavily macro&#8217;d C for unadulterated speed, but language mappings for .NET, Java, and Python are provided. Now, I&#8217;ll be honest. The first time I saw the poker-eval source code, I immediately unlearned about sixty-two months of best-practices software development&#8230;</p></blockquote>
+<p>That statement was a little tongue-in-cheek, but still:&nbsp;it seems like every time someone suggests Pokersource Poker-Eval, a disclaimer immediately follows:</p>
+<blockquote><p>Don&#8217;t use this library unless you&#8217;re a competent C programmer! <a href="http://en.wikipedia.org/wiki/Danger,_Will_Robinson">Danger, Will Robinson!</a></p></blockquote>
+<p>Just the other day, for example, I was looking at <a href="http://stackoverflow.com/questions/tagged/poker">poker-related questions on Stack Overflow</a> when I came across this:&nbsp;<a href="http://stackoverflow.com/questions/193916/how-do-i-programmatically-calculate-poker-odds">How Do I Programatically Calculate Poker Odds?</a></p>
+<blockquote>
+<p>Hello, I&#8217;m trying to write a simple game/utility to calculate poker odds. I know there&#8217;s plenty of resources that talk about the formulas to do so, but I guess I&#8217;m having trouble translating that to code. Particularly, I&#8217;m interested in Texas Hold-em &#8230;</p>
+<p>I understand that there are several different approaches, one being that you can calculate the odds that you will draw some hand based on the cards you can see. The other approach is calculating the odds that you will win a certain hand. The second approach seems much more complex as you&#8217;d have to enter more data (how many players, etc.)</p>
+<p>I&#8217;m not asking that you write it for me, but some nudges in the right direction would help :-)</p>
+</blockquote>
+<p>One of the answers suggested using Pokersource:</p>
+<blockquote>
+<p><strong>Take a look at </strong><a rel="nofollow" href="http://pokersource.info/"><strong>pokersource</strong></a><strong> if you have reasonably strong C abilities. It&#8217;s not simple, I&#8217;m afraid</strong>, but some of the things you&#8217;re looking for are complex. The poker-eval program that uses the library will probably do much of what you want if you can get the input format correct (not easy either). Sites such as <a rel="nofollow" href="http://www.propokertools.com/simulator/simulationEditor.jsp">this one</a> or <a rel="nofollow" href="http://twodimes.net/poker/">this</a> also use this library AFAIK.</p>
+<p>Still, it could be worse, you could be wanting to calculate something tricky like Omaha Hi-lo&#8230;</p>
+</blockquote>
+<p>Again with the disclaimer! And it occurred to me: you know what?&nbsp;All this&nbsp;<a href="http://en.wikipedia.org/wiki/Fear,_uncertainty_and_doubt">FUD</a>&nbsp;is really kind of&nbsp;bogus. As of this writing, Pokersource is still&nbsp;the best and most complete library of publically available poker-related code in the world. Period. What&#8217;s more: <strong>the Pokersource evaluator is extremely easy to use provided you understand the Pokersource way of doing things</strong>.</p>
+<p>So I thought, why not put together a brief Pokersource Poker-Eval primer?</p>
+<p><span id="more-89"></span></p>
+<h3>The Basics: Pokersource Grammar</h3>
+<p>The Pokersource evaluator represents a collection of N cards as a sequence&nbsp;of 52 bits, one bit for each card in the deck. This structure is called a <strong>mask</strong> and in code it&#8217;s represented by the <strong>StdDeck_CardMask</strong> type. A single StdDeck_CardMask value can store a single card, an entire N-card poker hand, or any other arbitrary collection of between 0 and 52 cards. Typically, StdDeck_CardMask values will be used to store player hands, board cards, and/or dead cards:</p>
+<div class="cpp">StdDeck_CardMask player1, player2, player3<span class="sy4">;</span><br />StdDeck_CardMask boardCards<span class="sy4">;</span></div>
+<p>Pokersource also allows a card to be addressed/identified&nbsp;by <strong>index</strong>&mdash;as an integer between 0 and 51. A given card index can be converted to an StdDeck_CardMask by using the <strong>StdDeck_MASK</strong> macro:</p>
+<div class="cpp">StdDeck_CardMask theCard <span class="sy1">=</span> StdDeck_MASK<span class="br0">(</span>cardIndex<span class="br0">)</span><span class="sy4">;</span></div>
+<p>You can clear a given Pokersource mask (removing all cards from the mask) via the <strong>StdDeck_CardMask_RESET</strong> macro. It&#8217;s a good idea to do this before using the mask (similar to initializing a numeric variable to 0).</p>
+<div class="cpp">StdDeck_CardMask hand<span class="sy4">;</span><br />StdDeck_CardMask_RESET<span class="br0">(</span>hand<span class="br0">)</span><span class="sy4">;</span></div>
+<p>You can combine Pokersource masks together to create a single mask containing all cards from both masks by&nbsp;using the <strong>StdDeck_CardMask_OR</strong> macro.</p>
+<div class="cpp">StdDeck_CardMask player1HoleCards <span class="sy1">=</span> <span class="coMULTI">/* some value */</span><br />StdDeck_CardMask theBoard <span class="sy1">=</span> <span class="coMULTI">/* some value */</span><br />StdDeck_CardMask combinedHand<span class="sy4">;</span><br />StdDeck_CardMask_OR<span class="br0">(</span>combinedHand, player1HoleCards, theBoard<span class="br0">)</span><span class="sy4">;</span></div>
+<p>Since a single StdDeck_CardMask can&nbsp;&#8221;contain&#8221; between 0 and 52 cards, sometimes it&#8217;s helpful to be able to count the cards present in a particular mask. For this, you can use the <strong>StdDeck_numCards</strong> macro:</p>
+<div class="cpp">StdDeck_CardMask arbitraryCollectionOfCards <span class="sy1">=</span> <span class="coMULTI">/* some value */</span><br /><span class="kw4">int</span> cardCount <span class="sy1">=</span> StdDeck_numCards<span class="br0">(</span>arbitraryCollectionOfCards<span class="br0">)</span><span class="sy4">;</span></div>
+<p>Now you might be wondering: <em>can the Pokersource evaluator handle text?</em> The answer is yes.&nbsp;You can&nbsp;convert&nbsp;a textual description of a card (such as &#8220;Ah&#8221; or &#8220;2d&#8221;) into the proper <em>index</em> value by using the <strong>StdDeck_stringToCard</strong> macro:</p>
+<div class="cpp"><span class="kw4">int</span> cardIndex <span class="sy1">=</span> <span class="sy2">-</span><span class="nu0">1</span><span class="sy4">;</span><br />StdDeck_stringToCard<span class="br0">(</span><span class="st0">&#8220;Ah&#8221;</span>, <span class="sy3">&amp;</span>cardIndex<span class="br0">)</span><span class="sy4">;</span></div>
+<p>Which means that you can convert a textual description of a card into its corresponding <em>mask</em> value by using StdDeck_stringToCard followed by StdDeck_MASK:</p>
+<div class="cpp"><span class="kw4">int</span> cardIndex <span class="sy1">=</span> <span class="sy2">-</span><span class="nu0">1</span><span class="sy4">;</span><br />StdDeck_stringToCard<span class="br0">(</span><span class="st0">&#8220;Ah&#8221;</span>, <span class="sy3">&amp;</span>cardIndex<span class="br0">)</span><span class="sy4">;</span><br />StdDeck_CardMask theCard <span class="sy1">=</span> StdDeck_MASK<span class="br0">(</span>cardIndex<span class="br0">)</span><span class="sy4">;</span></div>
+<p>This, of course, can be generalized to a function allowing you to convert text representing any number of cards into a single StdDeck_CardMask value:</p>
+<div class="cpp">StdDeck_CardMask TextToPokerEval<span class="br0">(</span><span class="kw4">const</span> <span class="kw4">char</span><span class="sy2">*</span> strHand<span class="br0">)</span><br /><span class="br0">{</span><br />&nbsp; &nbsp;StdDeck_CardMask theHand, theCard<span class="sy4">;</span><br />&nbsp; &nbsp;StdDeck_CardMask_RESET<span class="br0">(</span>theHand<span class="br0">)</span><span class="sy4">;</span></p>
+<p>&nbsp; &nbsp;<span class="kw1">if</span> <span class="br0">(</span>strHand <span class="sy3">&amp;&amp;</span> <span class="kw3">strlen</span><span class="br0">(</span>strHand<span class="br0">)</span><span class="br0">)</span><br />&nbsp; &nbsp;<span class="br0">{</span><br />&nbsp; &nbsp; &nbsp; <span class="kw4">int</span> cardIndex <span class="sy1">=</span> <span class="sy2">-</span><span class="nu0">1</span><span class="sy4">;</span><br />&nbsp; &nbsp; &nbsp; <span class="kw4">char</span><span class="sy2">*</span> curCard <span class="sy1">=</span> <span class="kw2">const_cast</span><span class="sy1">&lt;</span><span class="kw4">char</span><span class="sy2">*</span><span class="sy1">&gt;</span><span class="br0">(</span>strHand<span class="br0">)</span><span class="sy4">;</span></p>
+<p>&nbsp; &nbsp; &nbsp; <span class="kw1">while</span> <span class="br0">(</span><span class="sy2">*</span>curCard<span class="br0">)</span><br />&nbsp; &nbsp; &nbsp; <span class="br0">{</span><br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="co1">// Take the card text and convert it to an index (0..51)</span><br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;StdDeck_stringToCard<span class="br0">(</span>curCard, <span class="sy3">&amp;</span>cardIndex<span class="br0">)</span><span class="sy4">;</span><br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="co1">// Convert the card index to a mask</span><br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;theCard <span class="sy1">=</span> StdDeck_MASK<span class="br0">(</span>cardIndex<span class="br0">)</span><span class="sy4">;</span><br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="co1">// Add the card (mask) to the hand</span><br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;StdDeck_CardMask_OR<span class="br0">(</span>theHand, theHand, theCard<span class="br0">)</span><span class="sy4">;</span><br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="co1">// Advance to the next card (if any)</span><br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;curCard <span class="sy2">+</span><span class="sy1">=</span> <span class="nu0">2</span><span class="sy4">;</span><br />&nbsp; &nbsp; &nbsp; <span class="br0">}</span><br />&nbsp; &nbsp;<span class="br0">}</span></p>
+<p>&nbsp; &nbsp;<span class="kw1">return</span> theHand<span class="sy4">;</span><br /><span class="br0">}</span></div>
+<p>Going in the opposite direction, we can convert a Pokersource mask value to text by using the <strong>StdDeck_maskString</strong> and <strong>StdDeck_maskToString</strong> macros. The difference is that StdDeck_maskString manages the memory for the string internally, whereas StdDeck_maskToString copies the text to a user-supplied string buffer.</p>
+<div class="cpp">StdDeck_CardMask hand <span class="sy1">=</span> <span class="coMULTI">/* some player hand */</span><br /><span class="kw4">char</span><span class="sy2">*</span> hand <span class="sy1">=</span> StdDeck_maskString<span class="br0">(</span>hand<span class="br0">)</span><span class="sy4">;</span></div>
+<p>Similarly, we can take a card <em>index</em> and get a text value representing that card using the <strong>StdDeck_cardToString</strong> macro:</p>
+<div class="cpp"><span class="kw4">char</span> cardText<span class="br0">[</span><span class="nu0">3</span><span class="br0">]</span><span class="sy4">;</span><br /><span class="kw4">int</span> cardIndex <span class="sy1">=</span> <span class="coMULTI">/* some card index */</span><br />StdDeck_cardToString<span class="br0">(</span>cardIndex, cardText<span class="br0">)</span><span class="sy4">;</span></div>
+<p>Another popular way of representing card values is as a combination of rank and suit.&nbsp;Pokersource allows you to create&nbsp;an StdDeck_CardMask value for a specific card by specifying its rank and suit in the <strong>StdDeck_MAKE_CARD</strong> macro, which returns the card&#8217;s index:</p>
+<div class="cpp"><span class="kw4">int</span> cardIndex <span class="sy1">=</span> StdDeck_MAKE_CARD<span class="br0">(</span>someRankValue, someSuitValue<span class="br0">)</span><span class="sy4">;</span><br />StdDeck_CardMask <span class="sy1">=</span> StdDeck_MASK<span class="br0">(</span>cardIndex<span class="br0">)</span><span class="sy4">;</span></div>
+<p>Note that Pokersource has a specific numeric definition of each card rank:</p>
+<div class="cpp"><span class="co2">#define StdDeck_Rank_2 &nbsp; &nbsp; &nbsp;0</span><br /><span class="co2">#define StdDeck_Rank_3 &nbsp; &nbsp; &nbsp;1</span><br /><span class="co2">#define StdDeck_Rank_4 &nbsp; &nbsp; &nbsp;2</span><br /><span class="co2">#define StdDeck_Rank_5 &nbsp; &nbsp; &nbsp;3</span><br /><span class="co2">#define StdDeck_Rank_6 &nbsp; &nbsp; &nbsp;4</span><br /><span class="co2">#define StdDeck_Rank_7 &nbsp; &nbsp; &nbsp;5</span><br /><span class="co2">#define StdDeck_Rank_8 &nbsp; &nbsp; &nbsp;6</span><br /><span class="co2">#define StdDeck_Rank_9 &nbsp; &nbsp; &nbsp;7</span><br /><span class="co2">#define StdDeck_Rank_TEN &nbsp; &nbsp;8</span><br /><span class="co2">#define StdDeck_Rank_JACK &nbsp; 9</span><br /><span class="co2">#define StdDeck_Rank_QUEEN &nbsp;10</span><br /><span class="co2">#define StdDeck_Rank_KING &nbsp; 11</span><br /><span class="co2">#define StdDeck_Rank_ACE &nbsp; &nbsp;12</span><br /><span class="co2">#define StdDeck_Rank_COUNT &nbsp;13</span><br /><span class="co2">#define StdDeck_Rank_FIRST &nbsp;StdDeck_Rank_2</span><br /><span class="co2">#define StdDeck_Rank_LAST &nbsp; StdDeck_Rank_ACE</span></div>
+<p>As well as each suit. Pokersource bucks convention here by ordering suits Hearts-Diamonds-Clubs-Spades rather than Clubs-Diamonds-Hearts-Spades but it doesn&#8217;t really matter.</p>
+<div class="cpp"><span class="co2">#define StdDeck_Suit_HEARTS &nbsp; 0</span><br /><span class="co2">#define StdDeck_Suit_DIAMONDS 1</span><br /><span class="co2">#define StdDeck_Suit_CLUBS &nbsp; &nbsp;2</span><br /><span class="co2">#define StdDeck_Suit_SPADES &nbsp; 3</span><br /><span class="co2">#define StdDeck_Suit_FIRST &nbsp; &nbsp;StdDeck_Suit_HEARTS</span><br /><span class="co2">#define StdDeck_Suit_LAST &nbsp; &nbsp; StdDeck_Suit_SPADES</span></div>
+<h3>Evaluating Hands with Pokersource</h3>
+<p>Pokersource Poker-Eval is, first and foremost, a hand evaluator. It takes a given N-card poker hand and returns a number which can be compared with the number returned for other hands to determine the winner. There are two evaluation macros you&#8217;ll typically use:</p>
+<ul>
+<li><strong>StdDeck_StdRules_EVAL_N</strong>. The full evaluator.</li>
+<li><strong>StdDeck_StdRules_EVAL_TYPE</strong>. A pared-down evaluator which returns only&nbsp;the hand category (e.g., Full House, Quads, One Pair, etc.)</li>
+</ul>
+<p>So in order to determine the winner in a game of Texas Hold&#8217;em where Player 1 has &#8220;AhAd&#8221; and Player 2 has &#8220;KcKs&#8221; on a board of &#8220;2d4c4sKh9d&#8221;, you&#8217;ll write code similar to this:</p>
+<div class="cpp"><span class="co1">// Say we start with something like this&#8230;</span><br />StdDeck_CardMask player1 <span class="sy1">=</span> TextToPokerEval<span class="br0">(</span><span class="st0">&#8220;AhAd&#8221;</span><span class="br0">)</span><span class="sy4">;</span><br />StdDeck_CardMask player2 <span class="sy1">=</span> TextToPokerEval<span class="br0">(</span><span class="st0">&#8220;KcKs&#8221;</span><span class="br0">)</span><span class="sy4">;</span><br />StdDeck_CardMask theBoard <span class="sy1">=</span> TextToPokerEval<span class="br0">(</span><span class="st0">&#8220;2d4c4sKh9d&#8221;</span><span class="br0">)</span><span class="sy4">;</span></p>
+<p><span class="co1">// Get each player&#8217;s full 7-card hand into his mask</span><br />StdDeck_CardMask_OR<span class="br0">(</span>player1, player1, theBoard<span class="br0">)</span><span class="sy4">;</span><br />StdDeck_CardMask_OR<span class="br0">(</span>player2, player2, theBoard<span class="br0">)</span><span class="sy4">;</span></p>
+<p><span class="co1">// Evaluate each player&#8217;s hand</span><br /><span class="kw4">int</span> player1Val <span class="sy1">=</span> StdDeck_StdRules_EVAL_N<span class="br0">(</span>player1, <span class="nu0">7</span><span class="br0">)</span><span class="sy4">;</span><br /><span class="kw4">int</span> player2Val <span class="sy1">=</span> StdDeck_StdRules_EVAL_N<span class="br0">(</span>player2, <span class="nu0">7</span><span class="br0">)</span><span class="sy4">;</span></p>
+<p><span class="kw1">if</span> <span class="br0">(</span>player1Val <span class="sy1">&gt;</span> player2Val<span class="br0">)</span><br />&nbsp; &nbsp;<span class="sy4">;</span><span class="co1">// Player 1 wins. Do something.</span><br /><span class="kw1">else</span> <span class="kw1">if</span> <span class="br0">(</span>player1Val <span class="sy1">&lt;</span> player2Val<span class="br0">)</span><br />&nbsp; &nbsp;<span class="sy4">;</span><span class="co1">// Player 2 wins. Do something.</span><br /><span class="kw1">else</span><br />&nbsp; &nbsp;<span class="sy4">;</span><span class="co1">// Tie. Do something.</span></div>
+<p>Using the StdDeck_StdRules_EVAL_TYPE evaluator is exactly the same, except the value returned is an integer representing the category of the hand.</p>
+<p>That&#8217;s literally all there is to it.</p>
+<h3>Monte Carlo and Exhaustive Enumeration with Pokersource</h3>
+<p>It&#8217;s a little-known fact, but Pokersource ships with built-in support for both Monte Carlo simulation and Exhaustive Enumeration. In fact, we can leverage the Pokersource enumeration library to build a <a href="http://www.codingthewheel.com/archives/multiway-ranged-isometric-equity-calculation-in-poker-1">full-fledged poker calculator with support for multiple opponents with arbitrary hand ranges or distributions</a>.</p>
+<p>Pokersource provides Monte Carlo and Exhaustive Enumeration functionality through the following macros, all of which live in the <strong>enumerate.h</strong> header file.</p>
+<ul>
+<li><strong>DECK_ENUMERATE_x_CARDS</strong></li>
+<li><strong>DECK_ENUMERATE_x_CARDS_D</strong></li>
+<li><strong>DECK_MONTECARLO_N_CARDS_D</strong></li>
+<li><strong>DECK_ENUMERATE_COMBINATIONS_D</strong></li>
+<li><strong>DECK_ENUMERATE_PERMUTATIONS_D</strong></li>
+<li><strong>DECK_MONTECARLO_PERMUTATIONS_D</strong></li>
+</ul>
+<p>Using these macros is extremely simple provided you understand the format. Basically, each macro is going to &#8220;visit&#8221; or &#8220;generate&#8221; certain cards, repeatedly, using either exhaustive enumeration or Monte Carlo. For each set of visited/generated cards, the macro is going to execute a piece of arbitrary code provided by you.</p>
+<p>This will be&nbsp;clearer if we look at some source code.&nbsp;Here&#8217;s how you&#8217;d calculate the equity of a typical&nbsp;preflop matchup&#8230;</p>
+<ul>
+<li>Player 1: [Ah Ac]</li>
+<li>Player 2: [Kh Kc]</li>
+</ul>
+<p>&#8230;using exhaustive enumeration of all possible outcomes.</p>
+<div class="cpp"><span class="kw4">void</span> calculateHoldemMatchup<br /><span class="br0">{</span><br />&nbsp; &nbsp;<span class="co1">// Create player hands&#8230;</span><br />&nbsp; &nbsp;StdDeck_CardMask player1 <span class="sy1">=</span> CardConverter<span class="sy4">::</span><span class="me2">TextToPokerEval</span><span class="br0">(</span><span class="st0">&#8220;AhAc&#8221;</span><span class="br0">)</span><span class="sy4">;</span><br />&nbsp; &nbsp;StdDeck_CardMask player2 <span class="sy1">=</span> CardConverter<span class="sy4">::</span><span class="me2">TextToPokerEval</span><span class="br0">(</span><span class="st0">&#8220;KhKc&#8221;</span><span class="br0">)</span><span class="sy4">;</span><br />&nbsp; &nbsp;StdDeck_CardMask boardCards<span class="sy4">;</span></p>
+<p>&nbsp; &nbsp;<span class="co1">// Add player cards to &#8220;dead&#8221; or &#8220;used&#8221; cards</span><br />&nbsp; &nbsp;StdDeck_CardMask usedCards<span class="sy4">;</span><br />&nbsp; &nbsp;StdDeck_CardMask_OR<span class="br0">(</span>usedCards, player1, player2<span class="br0">)</span><span class="sy4">;</span></p>
+<p>&nbsp; &nbsp;<span class="co1">// Create an array to tally wins</span><br />&nbsp; &nbsp;<span class="kw4">double</span> wins<span class="br0">[</span><span class="nu0">2</span><span class="br0">]</span> <span class="sy1">=</span> <span class="br0">{</span> <span class="nu16">0.0</span> <span class="br0">}</span><span class="sy4">;</span><br />&nbsp; &nbsp;<span class="kw4">int</span> numberOfTrials <span class="sy1">=</span> <span class="nu0">0</span><span class="sy4">;</span></p>
+<p>&nbsp; &nbsp;<span class="co1">// Enumerate all possible 5-card boards, excluding boards which </span><br />&nbsp; &nbsp;<span class="co1">// contain one or more player hole cards. This will call &#8216;evalSingleTrial&#8217;</span><br />&nbsp; &nbsp;<span class="co1">// once for each unique board.</span><br />&nbsp; &nbsp;DECK_ENUMERATE_5_CARDS_D<span class="br0">(</span>StdDeck, boardCards, usedCards, <br />&nbsp; &nbsp; &nbsp; evalSingleTrial<span class="br0">(</span>player1, player2, boardCards, wins, numberOfTrials<span class="br0">)</span><span class="sy4">;</span> <span class="br0">)</span><span class="sy4">;</span></p>
+<p>&nbsp; &nbsp;<span class="co1">// Convert each player&#8217;s win tally to equity..</span><br />&nbsp; &nbsp;<span class="kw4">double</span> player1Equity <span class="sy1">=</span> <span class="br0">(</span>wins<span class="br0">[</span><span class="nu0">0</span><span class="br0">]</span> <span class="sy2">/</span> numberOfTrials<span class="br0">)</span> <span class="sy2">*</span> <span class="nu16">100.0</span><span class="sy4">;</span><br />&nbsp; &nbsp;<span class="kw4">double</span> player2Equity <span class="sy1">=</span> <span class="br0">(</span>wins<span class="br0">[</span><span class="nu0">1</span><span class="br0">]</span> <span class="sy2">/</span> numberOfTrials<span class="br0">)</span> <span class="sy2">*</span> <span class="nu16">100.0</span><span class="sy4">;</span></p>
+<p>&nbsp; &nbsp;<span class="co1">// Results:</span><br />&nbsp; &nbsp;<span class="co1">// Player 1: 82.64%</span><br />&nbsp; &nbsp;<span class="co1">// Player 2: 17.26%</span><br /><span class="br0">}</span></p>
+<p><span class="kw4">void</span> evalSingleTrial<span class="br0">(</span>StdDeck_CardMask player1, StdDeck_CardMask player2, <br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;StdDeck_CardMask board, <span class="kw4">double</span> wins<span class="br0">[</span><span class="br0">]</span>, <span class="kw4">int</span><span class="sy3">&amp;</span> numberOfTrials<span class="br0">)</span><br /><span class="br0">{</span><br />&nbsp; &nbsp;<span class="co1">// Combine each player&#8217;s hole cards with the 5-card board</span><br />&nbsp; &nbsp;StdDeck_CardMask_OR<span class="br0">(</span>player1, player1, board<span class="br0">)</span><span class="sy4">;</span><br />&nbsp; &nbsp;StdDeck_CardMask_OR<span class="br0">(</span>player2, player2, board<span class="br0">)</span><span class="sy4">;</span></p>
+<p>&nbsp; &nbsp;<span class="co1">// Evaluate each player&#8217;s hand</span><br />&nbsp; &nbsp;<span class="kw4">int</span> p1Val <span class="sy1">=</span> StdDeck_StdRules_EVAL_N<span class="br0">(</span>player1, <span class="nu0">7</span><span class="br0">)</span><span class="sy4">;</span><br />&nbsp; &nbsp;<span class="kw4">int</span> p2Val <span class="sy1">=</span> StdDeck_StdRules_EVAL_N<span class="br0">(</span>player2, <span class="nu0">7</span><span class="br0">)</span><span class="sy4">;</span></p>
+<p>&nbsp; &nbsp;<span class="co1">// Tally wins</span><br />&nbsp; &nbsp;<span class="kw1">if</span> <span class="br0">(</span>p1Val <span class="sy1">&gt;</span> p2Val<span class="br0">)</span><br />&nbsp; &nbsp; &nbsp; wins<span class="br0">[</span><span class="nu0">0</span><span class="br0">]</span> <span class="sy2">+</span><span class="sy1">=</span> <span class="nu16">1.0</span><span class="sy4">;</span><br />&nbsp; &nbsp;<span class="kw1">else</span> <span class="kw1">if</span> <span class="br0">(</span>p1Val <span class="sy1">&lt;</span> p2Val<span class="br0">)</span><br />&nbsp; &nbsp; &nbsp; wins<span class="br0">[</span><span class="nu0">1</span><span class="br0">]</span> <span class="sy2">+</span><span class="sy1">=</span> <span class="nu16">1.0</span><span class="sy4">;</span><br />&nbsp; &nbsp;<span class="kw1">else</span><br />&nbsp; &nbsp;<span class="br0">{</span><br />&nbsp; &nbsp; &nbsp; wins<span class="br0">[</span><span class="nu0">0</span><span class="br0">]</span> <span class="sy2">+</span><span class="sy1">=</span> <span class="nu16">0.5</span><span class="sy4">;</span><br />&nbsp; &nbsp; &nbsp; wins<span class="br0">[</span><span class="nu0">1</span><span class="br0">]</span> <span class="sy2">+</span><span class="sy1">=</span> <span class="nu16">0.5</span><span class="sy4">;</span><br />&nbsp; &nbsp;<span class="br0">}</span></p>
+<p>&nbsp; &nbsp;numberOfTrials<span class="sy2">++</span><span class="sy4">;</span><br /><span class="br0">}</span></div>
+<p>The above code exhaustively enumerates all 1,712,304 possible outcomes (the number of unique 5-card boards that can be drawn from the 48 remaining cards in the deck) and runs the evaluator for each, tallying per-player wins which are then converted into percentage equities. If you wanted to use Monte Carlo instead, you&#8217;d use DECK_MONTECARLO_N_CARDS_D.</p>
+<p>The other enumeration macros all have this same structure: you tell Pokersource what you want enumerated or randomly sampled, and it does the grunt work, executing your user-provided code once for each enumerated/sampled outcome.</p>
+<p>The ability to generically enumerate/randomly sample specific subsets of cards in the presence of dead cards is enough firepower to build&nbsp;a full-fledged poker calculator such as the one we built in <a href="http://www.codingthewheel.com/archives/multiway-ranged-isometric-equity-calculation-in-poker-1">Multiway Isometric Ranged Equity Calculation in Poker, Part 1</a>. And yet this post has really only scratched the surface of what is possible with Pokersource. We haven&#8217;t discussed Pokersource&#8217;s support for other poker variants (Omaha, Stud, etc.), or how the Pokersource evaluator can be extended to support still other variants.</p>
+<p>In conclusion, when looking for poker evaluation / calculation code, Pokersource should always be your first stop. I&#8217;m not saying it&#8217;s always the right library for the job, but you won&#8217;t find another publically available&nbsp;library that has equivalent functionality. I encourage you to explore the Pokersource library and who knows, perhaps join the <a href="https://gna.org/mail/?group=pokersource">Pokersource email distribution list</a>&nbsp;and&nbsp;say hello to <a href="https://gna.org/users/loic">Loic Dachary</a>, <a href="https://gna.org/users/mjmaurer">Michael Maurer</a>,&nbsp;and some of the other maintainers.</p>
+<p>Long live Pokersource!</p>
+</section>
+<footer class="article-footer">
+<p class="tags"><span class="tags-title">Tags:</span> <a href="http://www.codingthewheel.com/tags/online-poker/" rel="tag">online poker</a>, <a href="http://www.codingthewheel.com/tags/poker/" rel="tag">poker</a>, <a href="http://www.codingthewheel.com/tags/poker-bot/" rel="tag">poker bot</a>, <a href="http://www.codingthewheel.com/tags/poker-hand-evaluation/" rel="tag">poker hand evaluation</a></p></footer>
+
+
+	<h3 id="comments" class="h2"><span>11</span> Responses to &#8220;A Pokersource Poker-Eval Primer&#8221;</h3>
+
+	<nav id="comment-nav">
+		<ul class="clearfix">
+				<li></li>
+				<li></li>
+		</ul>
+	</nav>
+
+	<ol class="commentlist">
+			<li class="comment even thread-even depth-1">
+		<article id="comment-1274" class="clearfix">
+			<header class="comment-author vcard">
+																<img data-gravatar="http://www.gravatar.com/avatar/131beae824c4866ed6ae995c7fc9bd58?s=32" class="load-gravatar avatar avatar-48 photo" height="32" width="32" src="http://www.codingthewheel.com/wp-content/themes/wheels-2014/library/images/nothing.gif" />
+								<cite class="fn"><a href='http://pokersource.info/' rel='external nofollow' class='url'>Loic Dachary</a></cite>				<time datetime="2009-04-20"><a href="http://www.codingthewheel.com/archives/a-pokersource-poker-eval-primer/comment-page-1/#comment-1274">April 20th, 2009 </a></time>
+							</header>
+						<section class="comment_content clearfix">
+				<p>Thank you for this introduction to poker-eval, it&#8217;s a great way to start with pokersource. I would like to mention that we (pokersource developers) are looking for help to implement new features in [url=http://pokersource.info/]pokersource[/url]. If you are interested, please send a mail to [url=mailto:pokersource-users@gna.org]pokersource-users@gna.org[/url] or come visit the chat room at [url]http://irc.freenode.net/[/url] #pokersource</p>
+			</section>
+			<a class='comment-reply-link' href='/archives/a-pokersource-poker-eval-primer/?replytocom=1274#respond' onclick='return addComment.moveForm("comment-1274", "1274", "respond", "89")'>Reply</a>		</article>
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1">
+		<article id="comment-2653" class="clearfix">
+			<header class="comment-author vcard">
+																<img data-gravatar="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=32" class="load-gravatar avatar avatar-48 photo" height="32" width="32" src="http://www.codingthewheel.com/wp-content/themes/wheels-2014/library/images/nothing.gif" />
+								<cite class="fn">Anonymous</cite>				<time datetime="2009-04-20"><a href="http://www.codingthewheel.com/archives/a-pokersource-poker-eval-primer/comment-page-1/#comment-2653">April 20th, 2009 </a></time>
+							</header>
+						<section class="comment_content clearfix">
+				<p>Hey James, one of your 2+2 &#8216;fans&#8217; here. I stumble across every once in a while some Pokersource code in the software forum. never quite could figure out just what the hell all the different macros meant. (and I&#8217;m a C programmer). This will come in handy for me.</p>
+<p>To Loic: I really think the pokersource would benefit from a good set of docs. Ive searched and searched for an &#8216;API guide&#8217; but have never found one. Just bits and pieces on different forums.</p>
+			</section>
+			<a class='comment-reply-link' href='/archives/a-pokersource-poker-eval-primer/?replytocom=2653#respond' onclick='return addComment.moveForm("comment-2653", "2653", "respond", "89")'>Reply</a>		</article>
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1">
+		<article id="comment-1969" class="clearfix">
+			<header class="comment-author vcard">
+																<img data-gravatar="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=32" class="load-gravatar avatar avatar-48 photo" height="32" width="32" src="http://www.codingthewheel.com/wp-content/themes/wheels-2014/library/images/nothing.gif" />
+								<cite class="fn">proppy</cite>				<time datetime="2009-04-20"><a href="http://www.codingthewheel.com/archives/a-pokersource-poker-eval-primer/comment-page-1/#comment-1969">April 20th, 2009 </a></time>
+							</header>
+						<section class="comment_content clearfix">
+				<p>What about including this post (or part of it) in poker-eval future releases, as TUTORIAL.txt for example ?</p>
+<p>@James Devlin, would you agree to release this tutorial under a permissive License ?</p>
+			</section>
+			<a class='comment-reply-link' href='/archives/a-pokersource-poker-eval-primer/?replytocom=1969#respond' onclick='return addComment.moveForm("comment-1969", "1969", "respond", "89")'>Reply</a>		</article>
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1">
+		<article id="comment-2944" class="clearfix">
+			<header class="comment-author vcard">
+																<img data-gravatar="http://www.gravatar.com/avatar/131beae824c4866ed6ae995c7fc9bd58?s=32" class="load-gravatar avatar avatar-48 photo" height="32" width="32" src="http://www.codingthewheel.com/wp-content/themes/wheels-2014/library/images/nothing.gif" />
+								<cite class="fn"><a href='http://pokersource.info/' rel='external nofollow' class='url'>Loic Dachary</a></cite>				<time datetime="2009-04-20"><a href="http://www.codingthewheel.com/archives/a-pokersource-poker-eval-primer/comment-page-1/#comment-2944">April 20th, 2009 </a></time>
+							</header>
+						<section class="comment_content clearfix">
+				<p>I agree that pokersource needs documentation. The best documentation at the moment are the test cases (poker-engine is fully covered and poker-network will soon be). But it&#8217;s difficult for a beginner. I would love to see a native english speaker bootstrap this effort.</p>
+			</section>
+			<a class='comment-reply-link' href='/archives/a-pokersource-poker-eval-primer/?replytocom=2944#respond' onclick='return addComment.moveForm("comment-2944", "2944", "respond", "89")'>Reply</a>		</article>
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1">
+		<article id="comment-664" class="clearfix">
+			<header class="comment-author vcard">
+																<img data-gravatar="http://www.gravatar.com/avatar/aa7c1350d93036592f58f165318044db?s=32" class="load-gravatar avatar avatar-48 photo" height="32" width="32" src="http://www.codingthewheel.com/wp-content/themes/wheels-2014/library/images/nothing.gif" />
+								<cite class="fn"><a href='http://billmill.org/' rel='external nofollow' class='url'>Bill Mill</a></cite>				<time datetime="2009-04-20"><a href="http://www.codingthewheel.com/archives/a-pokersource-poker-eval-primer/comment-page-1/#comment-664">April 20th, 2009 </a></time>
+							</header>
+						<section class="comment_content clearfix">
+				<p>Long ago I modified hcmpn.c to make it into a nice quick command-line calculator I could use in-game; unfortunately I seem to have lost the code. I can&#8217;t believe I didn&#8217;t think to release it!</p>
+			</section>
+			<a class='comment-reply-link' href='/archives/a-pokersource-poker-eval-primer/?replytocom=664#respond' onclick='return addComment.moveForm("comment-664", "664", "respond", "89")'>Reply</a>		</article>
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1">
+		<article id="comment-473" class="clearfix">
+			<header class="comment-author vcard">
+																<img data-gravatar="http://www.gravatar.com/avatar/2f158518e4218f20a6e20aaf0165c224?s=32" class="load-gravatar avatar avatar-48 photo" height="32" width="32" src="http://www.codingthewheel.com/wp-content/themes/wheels-2014/library/images/nothing.gif" />
+								<cite class="fn"><a href='http://www.pokermaniak.com.pl/' rel='external nofollow' class='url'>Darmo</a></cite>				<time datetime="2009-04-20"><a href="http://www.codingthewheel.com/archives/a-pokersource-poker-eval-primer/comment-page-1/#comment-473">April 20th, 2009 </a></time>
+							</header>
+						<section class="comment_content clearfix">
+				<p>I am with affiliate programs pokersource , just reffer that team for all :)<br />
+Thay have great offer&#8217;s.<br />
+Regards</p>
+			</section>
+			<a class='comment-reply-link' href='/archives/a-pokersource-poker-eval-primer/?replytocom=473#respond' onclick='return addComment.moveForm("comment-473", "473", "respond", "89")'>Reply</a>		</article>
+	</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-jdevlin even thread-even depth-1">
+		<article id="comment-3286" class="clearfix">
+			<header class="comment-author vcard">
+																<img data-gravatar="http://www.gravatar.com/avatar/8ca7425c8a9da807b9bf6934f10d59fa?s=32" class="load-gravatar avatar avatar-48 photo" height="32" width="32" src="http://www.codingthewheel.com/wp-content/themes/wheels-2014/library/images/nothing.gif" />
+								<cite class="fn">Coding the Wheel</cite>				<time datetime="2009-04-21"><a href="http://www.codingthewheel.com/archives/a-pokersource-poker-eval-primer/comment-page-1/#comment-3286">April 21st, 2009 </a></time>
+							</header>
+						<section class="comment_content clearfix">
+				<blockquote><p>@James Devlin, would you agree to release this tutorial under a permissive License ?</p></blockquote>
+<p>I have no problem with that. Most of the content on this site is under the <a href="http://sam.zoy.org/wtfpl/">Do What the F&#8211;k You Want To Public License</a> by fiat. But I think Pokersource deserves a formal set of docs!</p>
+<p>@Bill Mill: Ah, good old hcmpn.c. I know it well.</p>
+			</section>
+			<a class='comment-reply-link' href='/archives/a-pokersource-poker-eval-primer/?replytocom=3286#respond' onclick='return addComment.moveForm("comment-3286", "3286", "respond", "89")'>Reply</a>		</article>
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1">
+		<article id="comment-3944" class="clearfix">
+			<header class="comment-author vcard">
+																<img data-gravatar="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=32" class="load-gravatar avatar avatar-48 photo" height="32" width="32" src="http://www.codingthewheel.com/wp-content/themes/wheels-2014/library/images/nothing.gif" />
+								<cite class="fn">Anonymous</cite>				<time datetime="2010-04-29"><a href="http://www.codingthewheel.com/archives/a-pokersource-poker-eval-primer/comment-page-1/#comment-3944">April 29th, 2010 </a></time>
+							</header>
+						<section class="comment_content clearfix">
+				<p>@James, trying to make a poker table simulation in a first step at developing a poker bot.<br />
+Can I use &#8220;StdDeck_ StdRules _EVAL&#8221; to find the best hand for one player out of a given set of cards?  Ie, if I passed all 5 combinations of 7 cards, from a TexasHoldEm table, would I get the best hand the player can make?  Also, can I use pokereval to figure out the probability of making a certain hand, assuming that the next card dealt is random and my hole cards and the table cards are dead?</p>
+			</section>
+			<a class='comment-reply-link' href='/archives/a-pokersource-poker-eval-primer/?replytocom=3944#respond' onclick='return addComment.moveForm("comment-3944", "3944", "respond", "89")'>Reply</a>		</article>
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1">
+		<article id="comment-5206" class="clearfix">
+			<header class="comment-author vcard">
+																<img data-gravatar="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=32" class="load-gravatar avatar avatar-48 photo" height="32" width="32" src="http://www.codingthewheel.com/wp-content/themes/wheels-2014/library/images/nothing.gif" />
+								<cite class="fn">Bruno</cite>				<time datetime="2011-10-18"><a href="http://www.codingthewheel.com/archives/a-pokersource-poker-eval-primer/comment-page-1/#comment-5206">October 18th, 2011 </a></time>
+							</header>
+						<section class="comment_content clearfix">
+				<p>Great introduction to the pokersource code. Once I tried understanding it but I gave up. Now knowing the basics I think I&#8217;ll try one more time to use it. Big thanks.</p>
+			</section>
+			<a class='comment-reply-link' href='/archives/a-pokersource-poker-eval-primer/?replytocom=5206#respond' onclick='return addComment.moveForm("comment-5206", "5206", "respond", "89")'>Reply</a>		</article>
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1">
+		<article id="comment-5294" class="clearfix">
+			<header class="comment-author vcard">
+																<img data-gravatar="http://www.gravatar.com/avatar/e4f3943c0421a592b8329852213165e6?s=32" class="load-gravatar avatar avatar-48 photo" height="32" width="32" src="http://www.codingthewheel.com/wp-content/themes/wheels-2014/library/images/nothing.gif" />
+								<cite class="fn"><a href='http://www.mulberryfactory-outlet.com' rel='external nofollow' class='url'>Mulberry Outlet</a></cite>				<time datetime="2011-12-1"><a href="http://www.codingthewheel.com/archives/a-pokersource-poker-eval-primer/comment-page-1/#comment-5294">December 1st, 2011 </a></time>
+							</header>
+						<section class="comment_content clearfix">
+				<p>It is really a nice post, it is always great reading such posts, this post is good in regards of both knowledge as well as information. Very fascinating read, thanks for sharing this post here.</p>
+			</section>
+			<a class='comment-reply-link' href='/archives/a-pokersource-poker-eval-primer/?replytocom=5294#respond' onclick='return addComment.moveForm("comment-5294", "5294", "respond", "89")'>Reply</a>		</article>
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1">
+		<article id="comment-5887" class="clearfix">
+			<header class="comment-author vcard">
+																<img data-gravatar="http://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=32" class="load-gravatar avatar avatar-48 photo" height="32" width="32" src="http://www.codingthewheel.com/wp-content/themes/wheels-2014/library/images/nothing.gif" />
+								<cite class="fn">Heyy</cite>				<time datetime="2012-11-24"><a href="http://www.codingthewheel.com/archives/a-pokersource-poker-eval-primer/comment-page-1/#comment-5887">November 24th, 2012 </a></time>
+							</header>
+						<section class="comment_content clearfix">
+				<p>Hello,<br />
+What do you #include??</p>
+			</section>
+			<a class='comment-reply-link' href='/archives/a-pokersource-poker-eval-primer/?replytocom=5887#respond' onclick='return addComment.moveForm("comment-5887", "5887", "respond", "89")'>Reply</a>		</article>
+	</li><!-- #comment-## -->
+	</ol>
+
+	<nav id="comment-nav">
+		<ul class="clearfix">
+				<li></li>
+				<li></li>
+		</ul>
+	</nav>
+
+	
+
+
+<section id="respond" class="respond-form">
+
+	<h3 id="comment-form-title" class="h2">Leave a Reply</h3>
+
+	<div id="cancel-comment-reply">
+		<p class="small"><a rel="nofollow" id="cancel-comment-reply-link" href="/archives/a-pokersource-poker-eval-primer/#respond" style="display:none;">Click here to cancel reply.</a></p>
+	</div>
+
+	
+	<form action="http://www.codingthewheel.com/wp-comments-post.php" method="post" id="commentform">
+
+	
+	<ul id="comment-form-elements" class="clearfix">
+
+		<li>
+			<label for="author">Name </label>
+			<input type="text" name="author" id="author" value="" placeholder="Your Name*" tabindex="1"  />
+		</li>
+
+		<li>
+			<label for="email">Mail </label>
+			<input type="email" name="email" id="email" value="" placeholder="Your E-Mail*" tabindex="2"  />
+			<small>(will not be published)</small>
+		</li>
+
+		<li>
+			<label for="url">Website</label>
+			<input type="url" name="url" id="url" value="" placeholder="Got a website?" tabindex="3" />
+		</li>
+
+	</ul>
+
+	
+	<p><textarea name="comment" id="comment" placeholder="Your Comment here..." tabindex="4"></textarea></p>
+
+	<p>
+		<input name="submit" type="submit" id="submit" class="button" tabindex="5" value="Submit" />
+		<input type='hidden' name='comment_post_ID' value='89' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+	</p>
+
+	<div class="alert alert-info">
+		<p id="allowed_tags" class="small"><strong>XHTML:</strong> You can use these tags: <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;strike&gt; &lt;strong&gt; </code></p>
+	</div>
+
+	<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="7831c9ab58" /></p>
+	</form>
+
+	</section>
+
+</article>
+</div>
+<div id="sidebar1" class="sidebar fourcol last clearfix" role="complementary">
+<div id="featuredcomment-3" class="widget featured_comment_widget"><h4 class="widgettitle"></h4><div class="featuredComment-comment"><div class="featuredComment-comment-content">A perfect hash function is not actually required. A faster non-perfect hash function in which all collisions have the same hand value would achieve the same result in less time.</div><div class="featuredComment-cite"><span class="featuredComment-author"><a href="http://www.codingthewheel.com/archives/poker-hand-evaluator-roundup/#comment-68032">DC on The Great Poker Hand Evaluator Roundup</a></span></div></div></div><div id="asseenonwidget-2" class="widget AsSeenOnWidget"><h4 class="widgettitle"> </h4><div id="as-seen-on"><div id="subscribe" style="float: left;"><a href="/feed" rel="nofollow"><img id="rss-icon" src="/pics/rss_icon_medium.png" height="74" width="74" alt="" /></a></div><p><strong>Coding the Wheel</strong> has appeared on the <a href="http://www.freakonomics.com/2009/04/16/yet-another-reason-to-hate-the-penny/">New York Time's <em>Freakonomics</em></a> blog, Jeff Atwood's <a href="http://www.codinghorror.com/blog/2008/11/coding-its-just-writing.html">Coding Horror</a>, and random restroom walls from Boston to San Diego. Published since 2008.</p></div></div>		<div id="recent-posts-2" class="widget widget_recent_entries">		<h4 class="widgettitle">Recent Posts</h4>		<ul>
+					<li>
+				<a href="http://www.codingthewheel.com/rants/java-plus-toaster/">Java + Toaster</a>
+						</li>
+					<li>
+				<a href="http://www.codingthewheel.com/chess/back-to-the-chessboard/">Back to the Chessboard</a>
+						</li>
+					<li>
+				<a href="http://www.codingthewheel.com/internet/the-99909-rule/">The 99/90/9 Rule</a>
+						</li>
+					<li>
+				<a href="http://www.codingthewheel.com/updates/rebuilding-the-wheel/">Rebuilding the Wheel</a>
+						</li>
+					<li>
+				<a href="http://www.codingthewheel.com/internet/dont-be-evil-except-the-new-google/">&quot;Don&#8217;t be evil, except&#8230;&quot;&mdash;the new Google</a>
+						</li>
+					<li>
+				<a href="http://www.codingthewheel.com/poker/the-poker-fountain/">The Poker Fountain</a>
+						</li>
+					<li>
+				<a href="http://www.codingthewheel.com/internet/could-digg-replace-google-reader/">Could Digg Replace Google Reader?</a>
+						</li>
+					<li>
+				<a href="http://www.codingthewheel.com/poker/online-poker-signs-of-life/">Online Poker: Signs of Life?</a>
+						</li>
+					<li>
+				<a href="http://www.codingthewheel.com/poker/florida-a-new-poker-mecca/">Florida: A New Poker Mecca?</a>
+						</li>
+					<li>
+				<a href="http://www.codingthewheel.com/coding/defensive-programming-example-1/">Defensive Programming Example&nbsp;#1</a>
+						</li>
+				</ul>
+		</div><div id="search-3" class="widget widget_search"><form role="search" method="get" id="searchform" action="http://www.codingthewheel.com/" >
+	<label class="screen-reader-text" for="s">Search for:</label>
+	<input type="text" value="" name="s" id="s" placeholder="Search the Site..." />
+	<input type="submit" id="searchsubmit" value="Search" />
+	</form></div></div></div>
+</div>
+<footer class="footer" role="contentinfo">
+<div id="inner-footer" class="wrap clearfix">
+<div id="sidebar1" class="sidebar fourcol last clearfix" role="complementary">
+</div><nav role="navigation">
+</nav>
+<p class="source-org copyright">&copy; 2014 Coding the Wheel.</p>
+</div>
+</footer>
+</div>
+				<script type='text/javascript'><!--
+			var seriesdropdown = document.getElementById("orgseries_dropdown");
+			if (seriesdropdown) { 
+			 function onSeriesChange() {
+					if ( seriesdropdown.options[seriesdropdown.selectedIndex].value != ( 0 || -1 ) ) {
+						location.href = "http://www.codingthewheel.com/series/"+seriesdropdown.options[seriesdropdown.selectedIndex].value;
+					}
+				}
+				seriesdropdown.onchange = onSeriesChange;
+			}
+			--></script>
+			<script type='text/javascript' src='http://www.codingthewheel.com/wp-includes/js/jquery/jquery.color.min.js'></script>
+<script type='text/javascript' src='http://www.codingthewheel.com/wp-includes/js/jquery/ui/jquery.ui.core.min.js'></script>
+<script type='text/javascript' src='http://www.codingthewheel.com/wp-includes/js/jquery/ui/jquery.ui.widget.min.js'></script>
+<script type='text/javascript' src='http://www.codingthewheel.com/wp-includes/js/jquery/ui/jquery.ui.mouse.min.js'></script>
+<script type='text/javascript' src='http://www.codingthewheel.com/wp-includes/js/jquery/ui/jquery.ui.draggable.min.js'></script>
+<script type='text/javascript' src='http://www.codingthewheel.com/wp-includes/js/jquery/ui/jquery.ui.resizable.min.js'></script>
+<script type='text/javascript' src='http://www.codingthewheel.com/wp-includes/js/jquery/ui/jquery.ui.button.min.js'></script>
+<script type='text/javascript' src='http://www.codingthewheel.com/wp-includes/js/jquery/ui/jquery.ui.position.min.js'></script>
+<script type='text/javascript' src='http://www.codingthewheel.com/wp-includes/js/jquery/ui/jquery.ui.dialog.min.js'></script>
+<script type='text/javascript' src='http://www.codingthewheel.com/wp-content/themes/wheels-2014/library/js/scripts.js'></script>
+</body>
+</html>

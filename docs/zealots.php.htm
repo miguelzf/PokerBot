@@ -1,0 +1,224 @@
+<html><head>
+
+
+
+
+
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<title>PokerStove: Poker Software and Analysis</title>
+<link rel="stylesheet" type="text/css" href="zealots.php_ficheiros/pokerstove.css">
+</head><body>
+
+<table id="outermost-table" align="center"><tbody><tr><td>
+  <table id="inner-tables" width="780" border="0" height="100%">
+    <!-- header table -->
+    <tbody><tr>
+      <td height="120">
+        <table width="100%" border="0" height="120">
+          <tbody><tr>
+            <td valign="middle" width="100" align="center"><img src="zealots.php_ficheiros/logo2.png" height="120"></td>
+            <td>
+              <table width="100%" border="0"><tbody><tr><td class="header" width="100%" height="100%">Poker Stove<br>Agnostics vs. Zealots</td></tr><tr><td class="subheader" width="100%" height="15">A perspective on poker software optimization.</td></tr></tbody></table></td><td width="200"></td>
+          </tr>
+        </tbody></table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+        <table width="100%" border="0" height="100%">
+          <tbody><tr><td class="menubg" valign="top" width="110" height="100%">
+ <table width="100%" border="0" height="100%">
+  <tbody><tr>
+   <td width="100%" height="20">
+    <a href="http://www.pokerstove.com/" class="menulink">Home</a>
+   </td>
+  </tr>
+  <tr>
+   <td width="100%" height="20">
+    <a href="http://www.pokerstove.com/analysis/" class="menulink">Analysis</a>
+   </td>
+  </tr>
+  <tr>
+   <td width="100%" height="20">
+    <a href="http://www.pokerstove.com/pokerstove/" class="menulink">Poker Stove</a>
+   </td>
+  </tr>
+  <tr>
+   <td width="100%" height="20">
+    <a href="http://www.pokerstove.com/pokertrace/" class="menulink">Poker Trace</a>
+   </td>
+  </tr>
+  <tr>
+   <td width="100%" height="20">
+    <a href="http://www.pokerstove.com/links/" class="menulink">Links</a>
+   </td>
+  </tr>
+  <tr>
+   <td width="100%" height="20">
+    <a href="http://www.pokerstove.com/about/" class="menulink">About RPS</a>
+   </td>
+  </tr>
+<tr>
+<td width="100%">&nbsp;</td>
+</tr>
+ </tbody></table>
+</td>
+<!-- pre content -->
+    <td class="content" valign="top" bgcolor="#ffffff" height="100%">
+<!-- content -->
+<h3>Yet Another Free Showdown Simulator: Agnostic vs. Zealous</h3>
+
+<p>I decided to put up some of my hold'em evaluation software.  You
+can download it from here:
+
+</p><p><a href="http://www.pokerstove.com/">www.pokerstove.com</a>
+
+</p><p>There are quite a few programs/packages out there that will do
+poker evaluations for you.  Some programs are faster than
+others, but one thing that they all seem to have in common is
+their approach to solving the evaluation/enumeration problem.
+
+</p><h4>Agnostic versus Zealous</h4>
+
+<p>In computer science there is classic tradeoff between size and
+time.  If you want to solve a problem faster, you can often
+achieve this by using more space.  If you have limited space you
+can solve many of the same problems, but it might take a bit more
+time.  One concrete example of this is tree traversals.  Most
+algorithms require O(log(n)) space, where n is the number of
+nodes in the tree.  But the traversal can be accomplished using a
+constant O(1) amount of space if you are willing to visit each
+node three times.
+
+</p><p>When it comes to solving complex problems, programmers are often
+faced with the decision of whether to create solutions which
+address the specific problem at hand (zealous), or create a
+solution which is more general and can be applied to multiple
+problem domains (agnostic).  The zealous approach provides a complex
+library which takes into account many of the possible different
+situations that the problem might present.  The agnostic approach
+is to provide a small efficient toolkit from which more and more
+complex tools can be built.  Conceptually the complex library
+uses fewer levels of abstraction than the small toolkit.
+
+</p><p>This relates to the size/speed tradeoff as follows.  The same
+problems can be solved, but the zealous approach usually requires
+more code, more code maintenance, and tends to be more brittle
+(susceptible to bugs).  The *size* of the zealous solution is
+much larger in several dimensions.  On the other hand, the
+zealous solution can often be faster, since optimizations can be
+applied across the conceptual levels that the agnostic solution
+separates.  [In fact, this is one of the reasons why JIT compiled
+Java code can't compete with optimized C code, global
+optimizations can't easily be applied to compiled .class files.]
+
+</p><h4>What does this have to do with poker software?</h4>
+
+<p>All of the public poker code I've read, and most of the poker
+software I've read about produces agnostic solutions to the
+problem of evaluating hands.  While this is good for providing a
+general low level library, most hand evaluations occur in very
+specific contextual circumstances.  In particular, many of these
+solutions treat evaluation and enumeration as two separate
+problems.
+
+</p><p>As I was proctoring my exams (no pun intended -- but feel free),
+I decided to take a break from modern RGP and go back and read
+about the "good ol' days".
+
+</p><p>An <a href="http://groups.google.com/groups?hl=en&amp;lr=&amp;ie=UTF-8&amp;selm=steve-2408971433480001%40brecher.reno.nv.us&amp;rnum=1">old
+thread</a> that I was reading discussed the case of calculating
+the equity of AA versus 9 random opponents.  The upshot was that
+it would require considering over 10^28 combinations.  Using an
+agnostic hand evaluator would require billions upon billions of
+hand evaluations.  But a zealous hand evaluator would know that
+there are only 133,784,560 different 7-card hands, and only
+bother to do that many evaluations.  The rest of the code would
+be centered around traversing the enumeration space in the most
+efficient way possible.
+
+</p><p>To explore the possible speedup by moving from an agnostic
+solution to a zealous solution, I wrote a "proof of concept" hand
+evaluator which computes the all-in preflop equity of a set of
+given hands.  In order to tax the evaluator, I added the ability
+to compute the subjective all-in equity (SAIE) for full hand
+distributions.  For example, the evaluator can calculate the
+equity of 22 vs. AA when the suits are not specified.  It can
+also calculate the equity of a hands like 87s versus an early
+raiser who might hold one of {99+, AQo+, AJs+}.  [The code at <a href="http://pokersource.sourceforge.net/">pokersource.sourceforge.net</a>
+also provides SAIE evaluation.]
+
+</p><p>The results were dramatic.  By binding the solution more closely
+to the specific problem I was to increase the overall evaluation
+speed of my code by a factor of 100.  On modern machines, the
+code can evaluate upwards of 1/2 billion games per second.
+
+</p><p>The speedup mostly comes from the fact that while there are
+millions (or billions) of combinatorial cases to consider, many
+of them are equivalent.  For example, if we are calculating the
+equity of KsKh vs. 8s3s all boards with the other two kings are
+going to result in a win for KK.  This equivalence class contains
+46 choose 3 = 15,180 combinations, but we can evaluate it once
+and apply that evaluation to across all combinations.
+
+</p><h4>So what's the point?</h4>
+
+
+<p>The point is that the general state of poker evaluators has been
+relatively stagnant for the last half decade.  It is time to
+actually sit down and do the hard work of producing quality
+evaluators which take a more zealous approach.  Hand evaluators
+may be a rather dry aspect of poker, but it's either come up with
+more clever ways of doing complex enumeration/evaluation tasks,
+or wait 90 years for computers to <a href="http://groups.google.com/groups?hl=en&amp;lr=&amp;ie=UTF-8&amp;selm=ufpvb0ra2x.fsf%40ftp.ardi.com&amp;rnum=4">"catch up"</a>
+
+
+
+</p><p>In the real world, most of this work has little meaning.  Monte
+Carlo simulations work very well for most practical problems, and
+enumeration driven software is only going to be of interest to
+the true poker geeks who must have all of their i's dotted and
+t's crossed.  Of course, I'm one of those geeks :)
+
+</p><p>- Andrew
+
+
+
+
+
+</p><p>P.S. Maybe I can get Charles Haynes to <a href="http://groups.google.com/groups?hl=en&amp;lr=&amp;ie=UTF-8&amp;frame=right&amp;th=577379785b5431ef&amp;seekm=4s3ufn%24d7q%40shellx.best.com#link1">pay me $50</a> at BARGE.  :)
+
+
+
+</p><p>P.P.S.  I'd like to give credit where credit is due.  The
+underlying ideas behind this kind of evaluator didn't originate
+with me.  I was inspired by ancient posts made by Steven R. Jacobs
+regarding video poker evaluation/enumeration algorithms.
+<!-- end content -->
+    </p></td>
+<!-- pre advert -->
+    <td class="content" valign="top" bgcolor="#ffffff" height="100%">    <center>
+<!-- advert -->
+<!-- end advert -->
+    </center>
+    </td>
+<!-- fin advert -->
+          </tr>
+        </tbody></table>
+      </td>
+    </tr>    <!-- footer -->
+    <tr>
+      <td class="footer" height="25">Copyright 2002-2010, RPS Consulting</td>
+    </tr>
+
+    </tbody></table>
+</td></tr></tbody></table>
+
+<br>
+<b>Warning</b>:  mysql_query(): supplied argument is not a valid MySQL-Link resource in <b>/home/content/a/p/r/aprock/html/ps-php-lib/psdb.php</b> on line <b>109</b><br>
+
+</body></html>

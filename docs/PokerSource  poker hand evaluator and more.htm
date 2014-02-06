@@ -1,0 +1,109 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+<title>PokerSource: poker hand evaluator and more</title>
+</head><body topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0" bgcolor="#ffffff" marginheight="0" marginwidth="0">
+
+<h1>Poker hand evaluator</h1>
+
+<p>
+poker-eval is a C library to evaluate poker hands. The result of the
+evalution for a given hand is a number. The general idea is that if
+the evalution of your hand is lower than the evaluation of the hand of
+your opponent, you lose. Many poker variants are supported (draw,
+holdem, omaha, etc.) and more can be added.  poker-eval is designed
+for speed so that it can be used within poker simulation software
+using either exhaustive exploration or Monte Carlo.
+</p>
+
+<ul>
+
+<li>Go to the <a href="http://gna.org/projects/pokersource/">pokersource project page</a> to download the software, report bugs or subscribe to the mailing list.</li>
+
+<li>Check the status of the <a href="http://debian.org/">Debian GNU/Linux</a>
+ packages for <a href="http://packages.qa.debian.org/p/poker-eval.html">poker-eval</a>
+and <a href="http://packages.qa.debian.org/p/pypoker-eval.html">pyhton for poker-eval</a></li>
+
+<li>Monitor the <a href="http://freshmeat.net/projects/poker-eval/">Freshmeat entry</a></li>
+
+</ul>
+
+<h1>Poker engine</h1>
+
+<p>
+poker-engine is a python library that implements poker rules according
+to variants and betting structures specified in configuration files.
+It designed to be used by a multiplayer poker server, a poker AI or a
+poker client.
+</p>
+
+<ul>
+<li><a href="http://download.gna.org/pokersource/sources/">Download the sources and binary packages</a></li>
+<li>Monitor the <a href="http://freshmeat.net/projects/poker-engine">Freshmeat entry</a></li>
+</ul>
+
+<h1>Poker server and client library</h1>
+
+<p>
+poker-network includes a poker server, a client library, an abstract
+user interface library and a client based on it.
+</p>
+<p>
+The server deals the cards and checks the user actions using a poker
+game engine (poker-engine). It listens on a TCP/IP port and
+understands a poker-network specific protocol. The persistent
+informations (accounts, hand history etc.) are stored in a MySQL
+database. The server was designed and tested to gracefully handle 1000
+simultaneous players on a single machine also running the MySQL
+server.
+</p>
+<p>
+The client library implements the poker-network protocol for
+the client. It runs a poker-engine identical to the one used by
+the server and uses it to simplify the implementation of a client.
+For instance it creates an event indicating that the player lost
+position although the server does not send such a packet. A simple
+minded bot is provided as an example usage of the client library.
+</p>
+<p>
+The abstract user interface library provides a framework based on the
+client library and suited to implement a user friendly client. A
+display is fed with events such as give seat S to player P or get
+amount A from side pot P to player P so that the rendering part of the
+user interface does not need to maintain contextual game
+information. A toolkit is fed with high level interaction actions such
+as ask login and password or display the following holdem tables. An
+animation module is fed with events that can trigger animations or
+sounds such as player P timeouted or player P wins the pot.
+</p>
+<p>
+The client based on the user interface library uses GTK. 
+</p>
+
+<ul>
+<li><a href="http://download.gna.org/pokersource/sources">Download the sources and binary packages</a></li>
+<li>Monitor the <a href="http://freshmeat.net/projects/poker-network">Freshmeat entry</a></li>
+</ul>
+
+<h1>Howto install the server and GTK client on Debian GNU/Linux</h1>
+
+1. Install Debian Linux.<br>
+2. Change /usr/apt/sources.list to include an 'unstable' server (just change stable to unstable)<br>
+3. apt-get update<br>
+4. apt-get install mysql-server<br>
+5. add a root password to mysql for security. The easiest way I found was: mysqladmin -u root password NEWPASSWORD<br>
+6. apt-get install python2.4-poker2d.  you will need to enter some 
+details regarding the passwords you want to use, and the password you 
+just set up for root.<br>
+7. run the poker2d client in /usr/games<br>
+
+<h1>Projects using poker-eval or poker-engine</h1>
+
+<i>(mail <a href="mailto:loic@dachary.org">Loic Dachary</a> to add your project here)</i>
+
+<ul>
+<li><a href="http://freshmeat.net/projects/poker3d/">3D online multiplayer poker game</a> (depends on poker-network)</li>
+<li><a href="http://pok3d.com/">Pok3D</a> (depends on poker-network)</li>
+</ul>
+
+</body></html>

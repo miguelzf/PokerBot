@@ -1,0 +1,68 @@
+%parser Exam.lexer
+%{
+using  System.Collections.Generic;
+using HoldemHand;
+%}
+
+%right Not
+%left LT LE GT GE
+%left IN AND OR But
+%left To
+%after Suited Offsuit
+
+SpecDoc				:	/* empty */							{$$ = new PocketHands();}
+					|	Expr								{$$ = $1;}
+					;
+					
+Expr				:	LParen Expr RParen					{$$ = (PocketHands) $2.yylval;}
+					|	Expr Suited							{$$ = ((PocketHands) $1.yylval) & PocketHands.Suited;}
+					|	Expr Offsuit						{$$ = ((PocketHands) $1.yylval) & PocketHands.Offsuit;}
+					|	Expr OR Expr						{$$ = ((PocketHands) $1.yylval) | ((PocketHands) $3.yylval);}
+					|	Expr AND Expr						{$$ = ((PocketHands) $1.yylval) & ((PocketHands) $3.yylval);}
+					|	Expr IN Expr						{$$ = ((PocketHands) $1.yylval) & ((PocketHands) $3.yylval);}
+					|	Not Expr							{$$ = !((PocketHands) $2.yylval);}
+					|	Expr To Expr						{$$ = PocketHands.GroupRange((PocketHands.GroupTypeEnum) $1.yylval, (PocketHands.GroupTypeEnum) $3.yylval);}
+					|	Expr LT Card169						{$$ = PocketHands.LT(((PocketHands) $1.yylval), (string)$3.yylval);}
+					|	Expr LE Card169						{$$ = PocketHands.LE(((PocketHands) $1.yylval), (string)$3.yylval);}
+					|	Expr GT Card169						{$$ = PocketHands.GT(((PocketHands) $1.yylval), (string)$3.yylval);}
+					|	Expr GE Card169						{$$ = PocketHands.GE(((PocketHands) $1.yylval), (string)$3.yylval);}
+					|	Expr LT Group						{$$ = ((PocketHands) $1.yylval) < (PocketHands.GroupTypeEnum) $3.yylval;}
+					|	Expr LE Group						{$$ = ((PocketHands) $1.yylval) <= (PocketHands.GroupTypeEnum) $3.yylval;}
+					|	Expr GT Group						{$$ = ((PocketHands) $1.yylval) > (PocketHands.GroupTypeEnum) $3.yylval;}
+					|	Expr GE Group						{$$ = ((PocketHands) $1.yylval) >= (PocketHands.GroupTypeEnum) $3.yylval;}
+					|	Any									{$$ = PocketHands.AllHands;}
+					|	Card Card							{$$ = PocketHands.PocketCards(((string) $1.yylval) + " " + ((string) $2.yylval));}
+					|	Card169								{$$ = PocketHands.PocketCards169(((string) $1.yylval));}
+					|	Connected							{$$ = PocketHands.Connected;}
+					|	Gapped								{$$ = PocketHands.Gap;}
+					|	Gapped1								{$$ = PocketHands.Gap1;}
+					|	Gapped2								{$$ = PocketHands.Gap2;}
+					|	Gapped3								{$$ = PocketHands.Gap3;}
+					|	Suited								{$$ = PocketHands.Suited;}
+					|	Offsuit								{$$ = PocketHands.Offsuit;}
+					|	Pair								{$$ = PocketHands.Pair;}
+					|	Group								{$$ = PocketHands.Group((PocketHands.GroupTypeEnum) $1.yylval);}
+					|	Card169Wild							{$$ = PocketHands.PocketCards169Wild((string)$1.yylval);}
+					|	Group To Group						{$$ = PocketHands.GroupRange((PocketHands.GroupTypeEnum) $1.yylval,(PocketHands.GroupTypeEnum) $3.yylval); }
+					|	Card169 To Card169					{$$ = PocketHands.PocketCards169Range((string) $1.yylval, (string) $3.yylval);}
+					|	Expr LT Number						{$$ = ((PocketHands) $1.yylval) < double.Parse((string) $3.yylval);}
+					|	Expr LE Number						{$$ = ((PocketHands) $1.yylval) <= double.Parse((string) $3.yylval);}
+					|	Expr GT Number						{$$ = ((PocketHands) $1.yylval) > double.Parse((string) $3.yylval);}
+					|	Expr GE Number						{$$ = ((PocketHands) $1.yylval) >= double.Parse((string) $3.yylval);}
+					|	Expr LT Percent						{$$ = ((PocketHands) $1.yylval) < (double.Parse((string) $3.yylval)/100.0);}
+					|	Expr LE Percent						{$$ = ((PocketHands) $1.yylval) <= (double.Parse((string) $3.yylval)/100.0);}
+					|	Expr GT Percent						{$$ = ((PocketHands) $1.yylval) > (double.Parse((string) $3.yylval)/100.0);}
+					|	Expr GE Percent						{$$ = ((PocketHands) $1.yylval) >= (double.Parse((string) $3.yylval)/100.0);}
+					;
+					
+Group				:	Group8								{$$ = 7;}
+					|	Group7								{$$ = 6;}
+					|	Group6								{$$ = 5;}
+					|	Group5								{$$ = 4;}
+					|	Group4								{$$ = 3;}
+					|	Group3								{$$ = 2;}
+					|	Group2								{$$ = 1;}
+					|	Group1								{$$ = 0;}
+					|	Group9								{$$ = 8;}
+					;
+	
