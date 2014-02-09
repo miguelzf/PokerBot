@@ -1,7 +1,8 @@
 PokerBot
 ========
 
-Automatic intelligent playing bot for PokerStars. Still in its infancy, only component done so far is the hand evaluator.
+Automatic intelligent playing bot for PokerStars. 
+This bot is still in its infancy, the only component done so far is the hand evaluator.
 Started it a couple years back, and I haven't got the time to touch it again since, so it's been on hiatus.
 
 
