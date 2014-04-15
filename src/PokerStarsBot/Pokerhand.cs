@@ -6,25 +6,31 @@ using System.Windows.Forms;
 
 namespace pokermaster
 {
-	/*
-	 * ==============================================================
-	 * ||						Poker Hands							||
-	 * ==============================================================
-	 *
-	 * NEVER use suits to evaluate hands (break ties in hand value)
-	 * 
-	 * Two straights are ranked by comparing the highest card of each.
-	 * Two straights with the same high card are of equal value, suits are not used to separate them.
-	 *
-	 * Two flushes are compared as if they were high card hands; the highest ranking card of each is compared to determine the winner
-	 * If both hands have the same highest card, then the 2nd-highest ranking card is compared, and so on until a difference is found
-	 *
-	 * Suits are irrelevant for Straight Flush 
-	 * Aces can play low in straights and straight flushes: 5? 4? 3? 2? A? is a 5-high straight flush, also known as a "steel wheel".
-	 * An ace-high straight flush such as A? K? Q? J? 10? is known as a royal flush, and is the highest ranking standard poker hand.
-	 *
-	 * For Pairs, 2-Pairs and Trios, the highest single cards (kickers) are used as a tiebreak, sucessively one by one
-	*/
+	//
+	// ==============================================================
+	// ||						Poker Hands							
+	// ==============================================================
+	//
+	// NEVER use suits to evaluate hands (break ties in hand value)
+	// 
+	// Two straights are ranked by comparing the highest card of each.
+	// Two straights with the same high card are of equal value, suits 
+	// are not used to separate them.
+	//
+	// Two flushes are compared as if they were high card hands;
+	// the highest ranking card of each is compared to determine the winner
+	// If both hands have the same highest card, then the 2nd-highest ranking 
+	// card is compared, and so on until a difference is found
+	//
+	// Suits are irrelevant for Straight Flush 
+	// Aces can play low in straights and straight flushes: 5? 4? 3? 2? A?
+	// is a 5-high straight flush, also known as a "steel wheel".
+	// An ace-high straight flush such as A? K? Q? J? 10? is known as a royal flush,
+	// and is the highest ranking standard poker hand.
+	//
+	// For Pairs, 2-Pairs and Trios, the highest single cards (kickers) 
+	// are used as a tiebreak, sucessively one by one
+	//
 
 	static public class PokerHand
 	{
@@ -38,24 +44,23 @@ namespace pokermaster
 		public const int HAND_CARDS = PokerApp.TAKEN_CARDS;
 
 
-/*
-		--------------------------------------------------------------
-		| Hand			| Description			| Value				 |
-		--------------------------------------------------------------
-		Highest Card							type1*N^4 + type2*N^3 + type3*N^2 + type4*N + type5
-		Pair									N^5 + Type*N^3 + kicker1*N^2 + kicker2*N + kicker3
-		Two Pairs								N^5 + N^4 + Type1*N*N + Type2*N + kicker
-		Trio									N^5 + N^4 + N^3 + Type*N^2 + kicker1*N + kicker2
+		// --------------------------------------------------------------
+		// Hand            Description              Value                
+		// --------------------------------------------------------------
+		// Highest Card                             type1*N^4 + type2*N^3 + type3*N^2 + type4*N + type5
+		// Pair                                     N^5 + Type*N^3 + kicker1*N^2 + kicker2*N + kicker3
+		// Two Pairs                                N^5 + N^4 + Type1*N*N + Type2*N + kicker
+		// Trio                                     N^5 + N^4 + N^3 + Type*N^2 + kicker1*N + kicker2
+		// 
+		// Straight        5 sucessive diff suits   N^5 + N^4 + 2*N^3 + highest Type
+		// Flush           5 increasing same suit   N^5 + N^4 + 3*N^3 + type1*N^4 + type2*N^3 
+		//                                              + type3*N^2 + type4*N + type5
+		// 
+		// Full House      trio + pair              2*N^5 + N^4 + 3*N^3 + N * Trio CardType + Pair CardType
+		// Four-of-Kind                             2*N^5 + N^4 + 4*N^3 + type
+		// StraightFlush   5 sucessive same suit    2*N^5 + N^4 + 5*N^3 + highest cardtype
 
-		Straight		5 sucessive, diff suits N^5 + N^4 + 2*N^3 + highest Type
-		Flush			5 increasing, same suit	N^5 + N^4 + 3*N^3 + type1*N^4 + type2*N^3 + type3*N^2 + type4*N + type5
- 
-		Full House		trio + pair				2*N^5 + N^4 + 3*N^3 + N * Trio CardType + Pair CardType
-		Four of a Kind							2*N^5 + N^4 + 4*N^3 + type
-		StraightFlush	5 sucessive, same suit  2*N^5 + N^4 + 5*N^3 + highest cardtype
-
-		CardType = card w/o suit     (max = SUIT_CARDS)
-*/
+		// CardType = card w/o suit     (max = SUIT_CARDS)
 
 		public enum Hand: int
 		{
@@ -181,14 +186,13 @@ namespace pokermaster
 
 
 
-
-/*		Highest Card							type1*N^4 + type2*N^3 + type3*N^2 + type4*N + type5
-		Pair									N^5 + Type*N^3 + kicker1*N^2 + kicker2*N + kicker3
-		Two Pairs								N^5 + N^4 + Type1*N*N + Type2*N + kicker
-		Trio									N^5 + N^4 + N^3 + Type*N^2 + kicker1*N + kicker2
-		Full House		trio + pair				2*N^5 + N^4 + 3*N^3 + N * Trio CardType + Pair CardType
-		Four of a Kind							2*N^5 + N^4 + 4*N^3 + type
-*/
+		// Highest Card                             type1*N^4 + type2*N^3 + type3*N^2 + type4*N + type5
+		// Pair                                     N^5 + Type*N^3 + kicker1*N^2 + kicker2*N + kicker3
+		// Two Pairs                                N^5 + N^4 + Type1*N*N + Type2*N + kicker
+		// Trio                                     N^5 + N^4 + N^3 + Type*N^2 + kicker1*N + kicker2
+		// Full House      trio + pair              2*N^5 + N^4 + 3*N^3 + N * Trio CardType + Pair CardType
+ 		// Four-of-Kind                             2*N^5 + N^4 + 4*N^3 + type
+		
 		static int checkKinds()
 		{
 			int i, idf, idt=-1, idp1=-1, idp2=-1;	// four, trio, pair1, pair2
@@ -236,7 +240,7 @@ namespace pokermaster
 		}
 
 
-		// 	StraightFlush	5 sucessive, same suit  2*N^5 + N^4 + 5*N^3 + highest cardtype
+		// StraightFlush   5 sucessive same suit    2*N^5 + N^4 + 5*N^3 + highest cardtype
 		static int checkStrFlush()
 		{
 			int i, id = 0, mcount = 0, suit = 0, HandCards = 5;
@@ -270,7 +274,7 @@ namespace pokermaster
 		
         
 
-        // Straight		5 sucessive, diff suits N^5 + N^4 + 2*N^3 + highest Type
+		// Straight        5 sucessive diff suits   N^5 + N^4 + 2*N^3 + highest Type
 		// the Aces may be higher or lower
 		static int checkStraight()
 		{
@@ -301,7 +305,7 @@ namespace pokermaster
 		}
 		
         
-		// 	Flush			5 increasing, same suit	N^5 + N^4 + 3*N^3 + type1*N^4 + type2*N^3 + type3*N^2 + type4*N + type5
+		// Flush           5 increasing same suit   N^5 + N^4 + 3*N^3 + type1*N^4 + type2*N^3 
 		static int checkFlush()
 		{
 			int i;
